@@ -67,6 +67,8 @@ namespace FFRGManager
         private void Orders_ListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Order selectedOrder = (Order) Orders_ListBox.SelectedItem;
+            if (selectedOrder == null) selectedOrder = new Order("", "", "", "", -1);
+
             OD_Street_Label.Text = selectedOrder.GetStreet();
             OD_City_Label.Text = selectedOrder.GetCity();
             OD_State_Label.Text = selectedOrder.GetState();
@@ -80,6 +82,7 @@ namespace FFRGManager
         private void PictureStatus_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Order selectedOrder = (Order)Orders_ListBox.SelectedItem;
+            if (selectedOrder == null) selectedOrder = new Order("", "", "", "", -1);
             selectedOrder.UpdatePictureStatus((ePictureStatus) PictureStatus_ComboBox.SelectedIndex+1);
         }
 
@@ -183,7 +186,7 @@ namespace FFRGManager
         private void OrderDetailsDelete_Button_Click(object sender, EventArgs e)
         {
             Order selectedOrder = (Order)Orders_ListBox.SelectedItem;
-            HttpMgr.DeleteObject(selectedOrder, settings.GetDeleteOrderUrl);
+            if (selectedOrder != null) HttpMgr.DeleteObject(selectedOrder, settings.GetDeleteOrderUrl);
         }
     }
 }
