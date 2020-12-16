@@ -26,6 +26,7 @@ namespace FFRGManager.Forms
             settings.serviceURL = TB_serviceURL.Text;
             settings.addOrderURI = TB_addOrderURI.Text;
             settings.orderListRefreshRate = Int32.Parse(TB_orderListRefreshRate.Text);
+            settings.port = TB_Port.Text;
         }
 
         private void OKButton_Click(object sender, EventArgs e)
@@ -55,6 +56,8 @@ namespace FFRGManager.Forms
             TB_serviceURL.Text = settings.serviceURL;
             TB_addOrderURI.Text = settings.addOrderURI;
             TB_orderListRefreshRate.Text = settings.orderListRefreshRate.ToString();
+            TB_Port.Text = settings.port;
         }
+
     }
 }

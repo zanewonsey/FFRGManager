@@ -82,7 +82,7 @@ namespace CommonUtil.Settings
                 JSONSettings = new JObject();
 
                 JSONSettings.Add(nameof(serviceURL), "localhost");
-                JSONSettings.Add(nameof(serviceURL), "4555");
+                JSONSettings.Add(nameof(port), "4555");
                 JSONSettings.Add(nameof(addOrderURI), "Orders/Create/");
                 JSONSettings.Add(nameof(orderListRefreshRate), 5000);
 
