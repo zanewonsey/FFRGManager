@@ -1,0 +1,63 @@
+use FFRGBPOMGR
+
+CREATE TABLE template (
+	template_ID INT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE SourceCompany (
+	SourceCompany_ID INT NOT NULL PRIMARY KEY,
+	CompanyName VARCHAR(40)
+);
+
+CREATE TABLE MapCoordinates (
+    MapCoordinates_ID INT NOT NULL PRIMARY KEY,
+    Latitude FLOAT NOT NULL,
+	Longitude FLOAT NOT NULL
+);
+
+CREATE TABLE Addresses (
+	Address_ID INT NOT NULL PRIMARY KEY,
+	Street VARCHAR(40) NOT NULL,
+	City VARCHAR(20) NOT NULL,
+	State VARCHAR(15) NOT NULL,
+	ZipCode VARCHAR(10) NOT NULL,
+	MapCoordinates_ID INT NOT NULL FOREIGN KEY REFERENCES MapCoordinates(MapCoordinates_ID),
+	Year_Built VARCHAR(4)
+);
+
+CREATE TABLE Orders (
+	Order_ID INT NOT NULL PRIMARY KEY,
+	Address_ID INT NOT NULL FOREIGN KEY REFERENCES Addresses(Address_ID),
+	SourceCompany_ID INT NOT NULL FOREIGN KEY REFERENCES SourceCompany(SourceCompany_ID),
+	Due_Date DATETIME NOT NULL,
+	DataSource VARCHAR(20),
+	Room_Count VARCHAR(8),
+	GLA VARCHAR(20),
+	Foundation VARCHAR(10),
+	Style VARCHAR(20),
+	Lot_Size VARCHAR(20),
+	Garage VARCHAR(10),
+	Area_Values VARCHAR(15),
+	Listings VARCHAR(2),
+	Sales VARCHAR(2),
+	Rent VARCHAR(4),
+	Land VARCHAR(10),
+	Out_Range VARCHAR(10),
+	Back_Range VARCHAR(10),
+	L VARCHAR(10),
+	S VARCHAR(10),
+	Q VARCHAR(10),
+	Notes VARCHAR(1000),
+);
+
+CREATE TABLE RouteTable (
+	RouteTable_ID INT NOT NULL PRIMARY KEY,
+	Assinee_Name VARCHAR(20) NOT NULL,
+	Date_To_Be_Ran DATETIME NOT NULL
+);
+
+CREATE TABLE StopTable (
+	StopTable_ID INT NOT NULL PRIMARY KEY,
+	Order_ID INT NOT NULL FOREIGN KEY REFERENCES Orders(Order_ID),
+	RouteTable_ID INT NOT NULL FOREIGN KEY REFERENCES RouteTable(RouteTable_ID)
+);
