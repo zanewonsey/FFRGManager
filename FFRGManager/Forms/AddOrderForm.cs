@@ -36,7 +36,9 @@ namespace FFRGManager
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            HttpMgr.PutObject<Order>(new Order(TB_Address.Text, TB_City.Text, TB_State.Text, TB_Zip.Text, 0), settings.GetAddOrderURL);
+            Order newOrder = new Order(TB_Address.Text, TB_City.Text, TB_State.Text, TB_Zip.Text, 0);
+            newOrder.SetDueDate(DatePicker.Value.Date + TimePicker.Value.TimeOfDay);
+            HttpMgr.PutObject<Order>(newOrder, settings.GetAddOrderURL);
             this.Close();
         }
     }

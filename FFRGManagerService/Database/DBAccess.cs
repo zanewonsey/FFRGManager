@@ -156,8 +156,8 @@ namespace FFRGManagerService.Database
                         addrIndex = InsertAddressTable(order.GetStreet(), order.GetCity(), order.GetState(), order.GetZipcode());
                     }
 
-                    DateTime myDateTime = DateTime.Now;
-                    string sqlFormattedDate = myDateTime.ToString("MM-dd-yyyy HH:mm:ss.fff");
+                    //DateTime myDateTime = DateTime.Now;
+                    string sqlFormattedDate = order.GetDueDate().ToString("MM-dd-yyyy HH:mm:ss.fff");
 
                     string queryString = "INSERT INTO [FFRGBPOMGR].[dbo].[Orders] (Address_ID, SourceCompany_ID, Due_Date, PicStatus)"
                                 + "VALUES(" + addrIndex + ", 1, CONVERT(datetime,'" + sqlFormattedDate + "', 101), "+order.GetPictureStatusInt()+"); ";
@@ -198,7 +198,8 @@ namespace FFRGManagerService.Database
 
                     string queryString = "UPDATE [FFRGBPOMGR].[dbo].[Orders] " +
                         "SET " +
-                        " Notes = '" + order.GetOrderDetails()+"'"+
+                        "  Notes = '" + order.GetOrderDetails()+"'"+
+                        ", PicStatus = "+order.GetPictureStatusInt()+
                         " where Order_ID=" + order.GetOrderID();
 
                     SqlCommand command = new SqlCommand(queryString, connection);
@@ -256,13 +257,15 @@ namespace FFRGManagerService.Database
                     while (reader.Read())
                     {
                         List<string> orderAddr = GetAddressFromTableWithKey(Int32.Parse(reader["Address_ID"].ToString().Trim()));
-                        l_orders.Add(new Order(orderAddr[0],
+                        Order ord = new Order(orderAddr[0],
                                                orderAddr[1],
                                                orderAddr[2],
                                                orderAddr[3],
-                                               Int32.Parse(reader["Order_ID"].ToString().Trim())
-                                              )
-                            );
+                                               Int32.Parse(reader["Order_ID"].ToString().Trim()));
+                        ord.SetDueDate(DateTime.Parse(reader["Due_Date"].ToString(), System.Globalization.CultureInfo.InvariantCulture));
+                        ord.UpdatePictureStatus((ePictureStatus)Int32.Parse(reader["PicStatus"].ToString()));
+                        ord.UpdateOrderDetails(reader["Notes"].ToString());
+                        l_orders.Add(ord);
                     }
                 }
                 finally

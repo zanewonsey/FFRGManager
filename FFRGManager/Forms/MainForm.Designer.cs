@@ -34,10 +34,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.GeneralAddOrder_Button = new System.Windows.Forms.Button();
             this.OrderDetails_GroupBox = new System.Windows.Forms.GroupBox();
+            this.OrderDetailsDelete_Button = new System.Windows.Forms.Button();
             this.OrderDetails_RichTextBox = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.PictureStatus_ComboBox = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.OD_Zipcode_Label = new System.Windows.Forms.Label();
             this.OD_State_Label = new System.Windows.Forms.Label();
@@ -69,7 +69,14 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.OrderDetailsDelete_Button = new System.Windows.Forms.Button();
+            this.GB_Sorting = new System.Windows.Forms.GroupBox();
+            this.RB_Sort_None = new System.Windows.Forms.RadioButton();
+            this.RB_Sort_City = new System.Windows.Forms.RadioButton();
+            this.RB_Sort_DueDate = new System.Windows.Forms.RadioButton();
+            this.label7 = new System.Windows.Forms.Label();
+            this.OD_DueDate_Label = new System.Windows.Forms.Label();
+            this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.SearchUseDateTime_CheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.OrderDetails_GroupBox.SuspendLayout();
@@ -78,6 +85,7 @@
             this.SearchCriteria_GroupBox.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.GB_Sorting.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -128,6 +136,16 @@
             this.OrderDetails_GroupBox.Text = "Order Details";
             this.OrderDetails_GroupBox.Enter += new System.EventHandler(this.GroupBox2_Enter);
             // 
+            // OrderDetailsDelete_Button
+            // 
+            this.OrderDetailsDelete_Button.Location = new System.Drawing.Point(360, 522);
+            this.OrderDetailsDelete_Button.Name = "OrderDetailsDelete_Button";
+            this.OrderDetailsDelete_Button.Size = new System.Drawing.Size(348, 48);
+            this.OrderDetailsDelete_Button.TabIndex = 9;
+            this.OrderDetailsDelete_Button.Text = "Delete Order";
+            this.OrderDetailsDelete_Button.UseVisualStyleBackColor = true;
+            this.OrderDetailsDelete_Button.Click += new System.EventHandler(this.OrderDetailsDelete_Button_Click);
+            // 
             // OrderDetails_RichTextBox
             // 
             this.OrderDetails_RichTextBox.Location = new System.Drawing.Point(274, 20);
@@ -140,10 +158,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.PictureStatus_ComboBox);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Location = new System.Drawing.Point(7, 106);
+            this.groupBox2.Location = new System.Drawing.Point(7, 326);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(260, 187);
+            this.groupBox2.Size = new System.Drawing.Size(260, 190);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Status";
@@ -157,18 +174,10 @@
             this.PictureStatus_ComboBox.TabIndex = 7;
             this.PictureStatus_ComboBox.SelectedIndexChanged += new System.EventHandler(this.PictureStatus_ComboBox_SelectedIndexChanged);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 128);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(113, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "Pictures Recieved";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.OD_DueDate_Label);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.OD_Zipcode_Label);
             this.groupBox1.Controls.Add(this.OD_State_Label);
             this.groupBox1.Controls.Add(this.OD_City_Label);
@@ -179,7 +188,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(7, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(260, 81);
+            this.groupBox1.Size = new System.Drawing.Size(260, 301);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Address";
@@ -264,15 +273,18 @@
             this.OrderDetailsSave_Button.TabIndex = 1;
             this.OrderDetailsSave_Button.Text = "Save Updates!";
             this.OrderDetailsSave_Button.UseVisualStyleBackColor = true;
+            this.OrderDetailsSave_Button.Click += new System.EventHandler(this.OrderDetailsSave_Button_Click);
             // 
             // SearchCriteria_GroupBox
             // 
+            this.SearchCriteria_GroupBox.Controls.Add(this.SearchUseDateTime_CheckBox);
+            this.SearchCriteria_GroupBox.Controls.Add(this.SearchPicturesRecieved_CheckBox);
+            this.SearchCriteria_GroupBox.Controls.Add(this.GB_Sorting);
             this.SearchCriteria_GroupBox.Controls.Add(this.GeneralSearch_TextBox);
             this.SearchCriteria_GroupBox.Controls.Add(this.label6);
             this.SearchCriteria_GroupBox.Controls.Add(this.label5);
             this.SearchCriteria_GroupBox.Controls.Add(this.SearchEnd_Time);
             this.SearchCriteria_GroupBox.Controls.Add(this.SearchStart_Time);
-            this.SearchCriteria_GroupBox.Controls.Add(this.SearchPicturesRecieved_CheckBox);
             this.SearchCriteria_GroupBox.Controls.Add(this.SearchEnd_Date);
             this.SearchCriteria_GroupBox.Controls.Add(this.SearchStart_Date);
             this.SearchCriteria_GroupBox.Location = new System.Drawing.Point(6, 6);
@@ -285,7 +297,7 @@
             // 
             // GeneralSearch_TextBox
             // 
-            this.GeneralSearch_TextBox.Location = new System.Drawing.Point(10, 68);
+            this.GeneralSearch_TextBox.Location = new System.Drawing.Point(10, 115);
             this.GeneralSearch_TextBox.Name = "GeneralSearch_TextBox";
             this.GeneralSearch_TextBox.Size = new System.Drawing.Size(219, 20);
             this.GeneralSearch_TextBox.TabIndex = 7;
@@ -311,7 +323,6 @@
             // 
             // SearchEnd_Time
             // 
-            this.SearchEnd_Time.Enabled = false;
             this.SearchEnd_Time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.SearchEnd_Time.Location = new System.Drawing.Point(144, 43);
             this.SearchEnd_Time.Name = "SearchEnd_Time";
@@ -322,7 +333,6 @@
             // 
             // SearchStart_Time
             // 
-            this.SearchStart_Time.Enabled = false;
             this.SearchStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.SearchStart_Time.Location = new System.Drawing.Point(144, 17);
             this.SearchStart_Time.Name = "SearchStart_Time";
@@ -334,7 +344,7 @@
             // SearchPicturesRecieved_CheckBox
             // 
             this.SearchPicturesRecieved_CheckBox.AutoSize = true;
-            this.SearchPicturesRecieved_CheckBox.Location = new System.Drawing.Point(10, 94);
+            this.SearchPicturesRecieved_CheckBox.Location = new System.Drawing.Point(10, 92);
             this.SearchPicturesRecieved_CheckBox.Name = "SearchPicturesRecieved_CheckBox";
             this.SearchPicturesRecieved_CheckBox.Size = new System.Drawing.Size(113, 17);
             this.SearchPicturesRecieved_CheckBox.TabIndex = 2;
@@ -344,7 +354,6 @@
             // 
             // SearchEnd_Date
             // 
-            this.SearchEnd_Date.Enabled = false;
             this.SearchEnd_Date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.SearchEnd_Date.Location = new System.Drawing.Point(42, 43);
             this.SearchEnd_Date.Name = "SearchEnd_Date";
@@ -354,7 +363,6 @@
             // 
             // SearchStart_Date
             // 
-            this.SearchStart_Date.Enabled = false;
             this.SearchStart_Date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.SearchStart_Date.Location = new System.Drawing.Point(42, 17);
             this.SearchStart_Date.Name = "SearchStart_Date";
@@ -369,7 +377,6 @@
             this.Orders_ListBox.Name = "Orders_ListBox";
             this.Orders_ListBox.ScrollAlwaysVisible = true;
             this.Orders_ListBox.Size = new System.Drawing.Size(365, 368);
-            this.Orders_ListBox.Sorted = true;
             this.Orders_ListBox.TabIndex = 0;
             this.Orders_ListBox.SelectedIndexChanged += new System.EventHandler(this.Orders_ListBox_SelectedIndexChanged);
             // 
@@ -465,15 +472,87 @@
             this.notifyIcon1.Text = "FFRG Manager";
             this.notifyIcon1.Visible = true;
             // 
-            // OrderDetailsDelete_Button
+            // GB_Sorting
             // 
-            this.OrderDetailsDelete_Button.Location = new System.Drawing.Point(360, 522);
-            this.OrderDetailsDelete_Button.Name = "OrderDetailsDelete_Button";
-            this.OrderDetailsDelete_Button.Size = new System.Drawing.Size(348, 48);
-            this.OrderDetailsDelete_Button.TabIndex = 9;
-            this.OrderDetailsDelete_Button.Text = "Delete Order";
-            this.OrderDetailsDelete_Button.UseVisualStyleBackColor = true;
-            this.OrderDetailsDelete_Button.Click += new System.EventHandler(this.OrderDetailsDelete_Button_Click);
+            this.GB_Sorting.Controls.Add(this.RB_Sort_DueDate);
+            this.GB_Sorting.Controls.Add(this.RB_Sort_City);
+            this.GB_Sorting.Controls.Add(this.RB_Sort_None);
+            this.GB_Sorting.Location = new System.Drawing.Point(235, 17);
+            this.GB_Sorting.Name = "GB_Sorting";
+            this.GB_Sorting.Size = new System.Drawing.Size(125, 129);
+            this.GB_Sorting.TabIndex = 8;
+            this.GB_Sorting.TabStop = false;
+            this.GB_Sorting.Text = "Sorting";
+            // 
+            // RB_Sort_None
+            // 
+            this.RB_Sort_None.AutoSize = true;
+            this.RB_Sort_None.Checked = true;
+            this.RB_Sort_None.Location = new System.Drawing.Point(6, 18);
+            this.RB_Sort_None.Name = "RB_Sort_None";
+            this.RB_Sort_None.Size = new System.Drawing.Size(51, 17);
+            this.RB_Sort_None.TabIndex = 0;
+            this.RB_Sort_None.TabStop = true;
+            this.RB_Sort_None.Text = "None";
+            this.RB_Sort_None.UseVisualStyleBackColor = true;
+            this.RB_Sort_None.CheckedChanged += new System.EventHandler(this.RB_Sort_None_CheckedChanged);
+            // 
+            // RB_Sort_City
+            // 
+            this.RB_Sort_City.AutoSize = true;
+            this.RB_Sort_City.Location = new System.Drawing.Point(6, 41);
+            this.RB_Sort_City.Name = "RB_Sort_City";
+            this.RB_Sort_City.Size = new System.Drawing.Size(42, 17);
+            this.RB_Sort_City.TabIndex = 1;
+            this.RB_Sort_City.Text = "City";
+            this.RB_Sort_City.UseVisualStyleBackColor = true;
+            this.RB_Sort_City.CheckedChanged += new System.EventHandler(this.RB_Sort_City_CheckedChanged);
+            // 
+            // RB_Sort_DueDate
+            // 
+            this.RB_Sort_DueDate.AutoSize = true;
+            this.RB_Sort_DueDate.Location = new System.Drawing.Point(6, 64);
+            this.RB_Sort_DueDate.Name = "RB_Sort_DueDate";
+            this.RB_Sort_DueDate.Size = new System.Drawing.Size(71, 17);
+            this.RB_Sort_DueDate.TabIndex = 2;
+            this.RB_Sort_DueDate.Text = "Due Date";
+            this.RB_Sort_DueDate.UseVisualStyleBackColor = true;
+            this.RB_Sort_DueDate.CheckedChanged += new System.EventHandler(this.RB_Sort_DueDate_CheckedChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 77);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(30, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Due:";
+            // 
+            // OD_DueDate_Label
+            // 
+            this.OD_DueDate_Label.AutoSize = true;
+            this.OD_DueDate_Label.Location = new System.Drawing.Point(51, 77);
+            this.OD_DueDate_Label.Name = "OD_DueDate_Label";
+            this.OD_DueDate_Label.Size = new System.Drawing.Size(97, 13);
+            this.OD_DueDate_Label.TabIndex = 10;
+            this.OD_DueDate_Label.Text = "_______________";
+            // 
+            // directorySearcher1
+            // 
+            this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
+            this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            // 
+            // SearchUseDateTime_CheckBox
+            // 
+            this.SearchUseDateTime_CheckBox.AutoSize = true;
+            this.SearchUseDateTime_CheckBox.Location = new System.Drawing.Point(10, 69);
+            this.SearchUseDateTime_CheckBox.Name = "SearchUseDateTime_CheckBox";
+            this.SearchUseDateTime_CheckBox.Size = new System.Drawing.Size(132, 17);
+            this.SearchUseDateTime_CheckBox.TabIndex = 9;
+            this.SearchUseDateTime_CheckBox.Text = "Use Date/Time in filter";
+            this.SearchUseDateTime_CheckBox.UseVisualStyleBackColor = true;
+            this.SearchUseDateTime_CheckBox.CheckedChanged += new System.EventHandler(this.SearchUseDateTime_CheckBox_CheckedChanged);
             // 
             // Form1
             // 
@@ -485,13 +564,12 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip2);
             this.Name = "Form1";
-            this.Text = "FFRG Manager";
+            this.Text = "FFRGBPOManager";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.OrderDetails_GroupBox.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.SearchCriteria_GroupBox.ResumeLayout(false);
@@ -500,6 +578,8 @@
             this.menuStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.GB_Sorting.ResumeLayout(false);
+            this.GB_Sorting.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -527,7 +607,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.DateTimePicker SearchEnd_Date;
         private System.Windows.Forms.DateTimePicker SearchStart_Date;
         private System.Windows.Forms.CheckBox SearchPicturesRecieved_CheckBox;
@@ -547,6 +626,14 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.Button OrderDetailsDelete_Button;
+        private System.Windows.Forms.GroupBox GB_Sorting;
+        private System.Windows.Forms.RadioButton RB_Sort_DueDate;
+        private System.Windows.Forms.RadioButton RB_Sort_City;
+        private System.Windows.Forms.RadioButton RB_Sort_None;
+        private System.Windows.Forms.Label OD_DueDate_Label;
+        private System.Windows.Forms.Label label7;
+        private System.DirectoryServices.DirectorySearcher directorySearcher1;
+        private System.Windows.Forms.CheckBox SearchUseDateTime_CheckBox;
     }
 }
 

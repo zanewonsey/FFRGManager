@@ -75,6 +75,11 @@ namespace CommonUtil.Settings
             get { return "http://" + serviceURL + ":" + port + "/api/Orders/Delete"; }
         }
 
+        public string GetUpdateOrderUrl
+        {
+            get { return "http://" + serviceURL + ":" + port + "/api/Orders/Update"; }
+        }
+
         private UISettings()
         {
             if (!File.Exists(settingsFileLocation))

@@ -28,6 +28,9 @@ namespace CommonUtil
         [JsonProperty("details", NullValueHandling = NullValueHandling.Ignore)]
         private string details;
 
+        [JsonProperty("DueDate", NullValueHandling = NullValueHandling.Ignore)]
+        private DateTime DueDate;
+
         [JsonProperty("PicStatus", NullValueHandling = NullValueHandling.Ignore)]
         private PictureStatus PicStatus;
 
@@ -85,6 +88,21 @@ namespace CommonUtil
         public void UpdateOrderDetails(string updatedDetails)
         {
             this.details = updatedDetails;
+        }
+
+        public DateTime GetDueDate()
+        {
+            return this.DueDate;
+        }
+
+        public string GetDueDateStr()
+        {
+            return this.DueDate.ToString();
+        }
+
+        public void SetDueDate(DateTime DueDate)
+        {
+            this.DueDate = DueDate;
         }
 
         public string GetPictureStatus()

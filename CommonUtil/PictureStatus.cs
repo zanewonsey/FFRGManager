@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,8 @@ namespace CommonUtil
 
     public class PictureStatus
     {
-        private ePictureStatus status;
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public ePictureStatus status;
 
         public PictureStatus()
         {

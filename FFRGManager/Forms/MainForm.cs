@@ -73,6 +73,7 @@ namespace FFRGManager
             OD_City_Label.Text = selectedOrder.GetCity();
             OD_State_Label.Text = selectedOrder.GetState();
             OD_Zipcode_Label.Text = selectedOrder.GetZipcode();
+            OD_DueDate_Label.Text = selectedOrder.GetDueDateStr();
 
             OrderDetails_RichTextBox.Text = selectedOrder.GetOrderDetails();
 
@@ -82,8 +83,12 @@ namespace FFRGManager
         private void PictureStatus_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Order selectedOrder = (Order)Orders_ListBox.SelectedItem;
-            if (selectedOrder == null) selectedOrder = new Order("", "", "", "", -1);
-            selectedOrder.UpdatePictureStatus((ePictureStatus) PictureStatus_ComboBox.SelectedIndex+1);
+            
+            if (selectedOrder != null)
+            {
+                selectedOrder.UpdatePictureStatus((ePictureStatus)PictureStatus_ComboBox.SelectedIndex + 1);
+                //HttpMgr.PostObject(selectedOrder, settings.GetDeleteOrderUrl);
+            }
         }
 
         private void UpdateSearch()
@@ -91,12 +96,25 @@ namespace FFRGManager
             // Clear out the list so that we don't duplicate items
             Orders_ListBox.Items.Clear();
 
+            DateTime DTsearchStart = SearchStart_Date.Value.Date + SearchStart_Time.Value.TimeOfDay;
+            DateTime DTsearchEnd   = SearchEnd_Date.Value.Date + SearchEnd_Time.Value.TimeOfDay;
+
             // Build a sorted list
             List<Order> Ord = Order_Manager.GetOrderList().FindAll
                 (
                     P => P.ToString().ToLower().Contains(GeneralSearch_TextBox.Text.ToLower())
                          && ((SearchPicturesRecieved_CheckBox.Checked) ? P.PicturesRecieved() : true)
+                         && ((SearchUseDateTime_CheckBox.Checked) ? ( (DTsearchStart < P.GetDueDate()) && (P.GetDueDate() < DTsearchEnd) ) : true)
                 );
+
+            if (RB_Sort_City.Checked)
+            {
+                Ord = Ord.OrderBy(o => o.GetCity()).ToList();
+            }
+            else if (RB_Sort_DueDate.Checked)
+            {
+                Ord = Ord.OrderBy(o => o.GetDueDate()).ToList();
+            }
 
             // Add the items from the built list to the list box for display
             foreach (Order O in Ord)
@@ -111,6 +129,31 @@ namespace FFRGManager
         }
 
         private void SearchPicturesRecieved_CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSearch();
+        }
+
+        private void ToolStripButton1_Click(object sender, EventArgs e)
+        {
+            UpdateSearch();
+        }
+
+        private void SearchUseDateTime_CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSearch();
+        }
+
+        private void RB_Sort_None_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSearch();
+        }
+
+        private void RB_Sort_City_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSearch();
+        }
+
+        private void RB_Sort_DueDate_CheckedChanged(object sender, EventArgs e)
         {
             UpdateSearch();
         }
@@ -178,15 +221,17 @@ namespace FFRGManager
 
         }
 
-        private void ToolStripButton1_Click(object sender, EventArgs e)
-        {
-            UpdateSearch();
-        }
-
         private void OrderDetailsDelete_Button_Click(object sender, EventArgs e)
         {
             Order selectedOrder = (Order)Orders_ListBox.SelectedItem;
             if (selectedOrder != null) HttpMgr.DeleteObject(selectedOrder, settings.GetDeleteOrderUrl);
         }
+
+        private void OrderDetailsSave_Button_Click(object sender, EventArgs e)
+        {
+            Order selectedOrder = (Order)Orders_ListBox.SelectedItem;
+            if (selectedOrder != null) HttpMgr.PostObject(selectedOrder, settings.GetUpdateOrderUrl);
+        }
+
     }
 }
